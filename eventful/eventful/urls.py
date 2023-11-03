@@ -28,6 +28,7 @@ urlpatterns = [
     path('email/',views.emailSender), #sends email
     path('allevents/',views.eventsList), #all events
     path('allevents/<int:id>/',views.eventsDetail), #one event by its event id
+    path('host-status/', views.checkHostStatus),
     path('event-status/<str:event_status>/', views.eventStatus), #events of diff status
     path('user-events/<str:user_email>/<str:event_status>/', views.userEvents), #user events of diff status
     path('all-user-events/<str:user_email>/', views.userAllEvents), #user events of all status

@@ -9,6 +9,14 @@ from rest_framework import status
 from rest_framework_simplejwt.authentication import JWTAuthentication
 from rest_framework.permissions import IsAuthenticated
 
+@api_view(['GET'])
+@permission_classes([IsAuthenticated])
+def checkHostStatus(request):
+    user = request.user
+    ishost = user.ishost
+    return Response({'ishost': ishost})
+
+
 @api_view(['GET', 'POST'])
 @authentication_classes([JWTAuthentication])
 @permission_classes([IsAuthenticated])
