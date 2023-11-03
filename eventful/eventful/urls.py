@@ -14,15 +14,18 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+
 from django.contrib import admin
-from django.urls import path
+from django.urls import path,include
 from events import views
+# from custom_auth import views
 from rest_framework.urlpatterns import format_suffix_patterns
+
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('auth/', include('custom_auth.urls')), #adds login and register endpoints
     path('email/',views.emailSender), #sends email
-    path('allusers/',views.usersList), #all users
-    path('allusers/<int:id>/',views.usersDetail), #one user by its user id
     path('allevents/',views.eventsList), #all events
     path('allevents/<int:id>/',views.eventsDetail), #one event by its event id
     path('event-status/<str:event_status>/', views.eventStatus), #events of diff status
@@ -33,3 +36,4 @@ urlpatterns = [
 ]
 
 urlpatterns = format_suffix_patterns(urlpatterns)
+
