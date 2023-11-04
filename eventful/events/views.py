@@ -92,7 +92,7 @@ def userAllEvents(request, user_email, format=None):
 
     if request.method == 'GET':
         serializer = EventsSerializer(user_events, many=True)
-        return Response(serializer.data)
+        return Response({"events":serializer.data})
     
 @api_view(['GET'])
 @authentication_classes([JWTAuthentication])

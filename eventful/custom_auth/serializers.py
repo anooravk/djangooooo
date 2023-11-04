@@ -6,6 +6,7 @@ from django.contrib.auth import get_user_model
 from rest_framework.validators import UniqueValidator
 from django.contrib.auth.password_validation import validate_password
 
+
 User = get_user_model()
 
 class RegisterSerializer(serializers.ModelSerializer):
@@ -38,7 +39,7 @@ class RegisterSerializer(serializers.ModelSerializer):
             email=validated_data['email'],
             first_name=validated_data['first_name'],
             last_name=validated_data['last_name'],
-            ishost=validated_data.get('ishost', False)  # Set ishost with default value if not provided
+            ishost=validated_data.get('ishost', False) 
         )
 
         user.set_password(validated_data['password'])
@@ -49,12 +50,15 @@ class RegisterSerializer(serializers.ModelSerializer):
 
 
 class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
-
     @classmethod
     def get_token(cls, user):
-        token = super(MyTokenObtainPairSerializer, cls).get_token(user)
-
-    
+        token = super().get_token(user)
         token['username'] = user.username
         return token
+
+    def validate(self, attrs):
+        data = super().validate(attrs)
+        serializer = RegisterSerializer(instance=self.user)
+        data['email'] = serializer.data['email']
+        return data
 
