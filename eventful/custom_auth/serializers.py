@@ -60,5 +60,6 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
         data = super().validate(attrs)
         serializer = RegisterSerializer(instance=self.user)
         data['email'] = serializer.data['email']
+        data['ishost'] = serializer.data['ishost']
         return data
 
