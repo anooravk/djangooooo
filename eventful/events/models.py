@@ -28,7 +28,7 @@ class Event(models.Model):
     endTime = models.TimeField(default=timezone.now)
     status = models.CharField(max_length=15, choices=statusChoice, default='not started')
     invitees = models.TextField()  
-    attendees = models.TextField()  
+    attendees = models.TextField(default='')  
     category = models.ForeignKey(Category, on_delete=models.CASCADE,default=1)
 
     def __str__(self):
