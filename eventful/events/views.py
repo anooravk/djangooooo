@@ -137,3 +137,27 @@ def emailSender(request, format=None):
 
 
 
+@api_view(['PUT'])
+@authentication_classes([JWTAuthentication])
+@permission_classes([IsAuthenticated])
+def checkAttendance(request, user_email, id, format=None):
+    try:
+        user_event = Event.objects.get(invitees__contains=user_email, eventId=id)
+    except Event.DoesNotExist:
+        return Response({"error": "Event not found or user not invited."}, status=status.HTTP_404_NOT_FOUND)
+
+    if request.method == 'PUT':
+       
+        if user_email not in user_event.invitees.split(','):
+            return Response({"error": "User not invited to this event."}, status=status.HTTP_400_BAD_REQUEST)
+
+        if user_email in user_event.attendees.split(','):
+            return Response({"error": "User is already marked as attendee."}, status=status.HTTP_400_BAD_REQUEST)
+
+        attendees_list = user_event.attendees.split(',')
+        attendees_list.append(user_email)
+        user_event.attendees = ','.join(attendees_list)
+        user_event.save()
+
+        serializer = EventsSerializer(user_event)
+        return Response({"event": serializer.data})

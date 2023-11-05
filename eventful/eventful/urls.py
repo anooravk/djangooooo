@@ -27,6 +27,7 @@ urlpatterns = [
     path('auth/', include('custom_auth.urls')), #adds login and register endpoints
     path('email/',views.emailSender), #sends email
     path('allevents/',views.eventsList), #all events
+    path('markattendance/<str:user_email>/<int:id>/',views.checkAttendance), #check attendance of user
     path('allevents/<int:id>/',views.eventsDetail), #one event by its event id
     path('host-status/', views.checkHostStatus),
     path('event-status/<str:event_status>/', views.eventStatus), #events of diff status
